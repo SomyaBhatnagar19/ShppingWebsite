@@ -19,7 +19,7 @@ const ProductList = () => {
 
   const addToCart = (product) => {
     dispatch(CartActions.addItemToCart(product));
-    setShowToast(true);
+    setShowToast(true)
   };
 
   return (

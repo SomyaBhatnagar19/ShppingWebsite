@@ -1,19 +1,16 @@
-import React from "react";
-import { Alert } from "react-bootstrap";
-import { useState } from "react";
+import React, { useState } from 'react';
+import { Alert } from 'react-bootstrap';
 
 const Notification = (props) => {
-
-    const [showAlert, setShowAlert] = useState(!!props.status);
-
+  const [showAlert, setShowAlert] = useState(!!props.status);
 
   return (
     <div>
-      {(showAlert) && (
+      {showAlert && (
         <Alert
-          variant={props.status === "success" ? "success" : "danger"}
+          variant={props.status === 'success' ? 'success' : 'danger'}
           onClose={() => {
-              setShowAlert(false);
+            setShowAlert(false);
           }}
           dismissible
         >
