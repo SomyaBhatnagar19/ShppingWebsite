@@ -1,35 +1,30 @@
 import React, { useState } from 'react';
 import { Modal, Button, Toast } from 'react-bootstrap';
+import {useDispatch, useSelector } from 'react-redux';
+import { CartActions } from './store/CartSlice';
+
 
 const Cart = () => {
   const [showModal, setShowModal] = useState(true);
   const [showToast, setShowToast] = useState(true);
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: 'Product 1', price: 20, quantity: 1 },
-    { id: 2, name: 'Product 2', price: 30, quantity: 1 },
-    { id: 3, name: 'Product 3', price: 25, quantity: 1 }
-  ]);
+  
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.items);
+  const totalQuantity = useSelector((state)=>state.cart.totalQuantity);
+  const totalPrice = useSelector ((state)=>state.cart.totalPrice);
 
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
-  const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
+  
 
   const handleAddItem = (itemId) => {
-    const updatedCart = cartItems.map(item =>
-      item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
-    );
-    setCartItems(updatedCart);
+    dispatch(CartActions.increaseItemQuantity(itemId));
   };
 
   const handleRemoveItem = (itemId) => {
-    const updatedCart = cartItems.map(item =>
-      item.id === itemId ? { ...item, quantity: item.quantity - 1 } : item
-    );
-    setCartItems(updatedCart);
+    dispatch(CartActions.decreaseItemQuantity(itemId))
   };
 
   return (
@@ -59,22 +54,22 @@ const Cart = () => {
         </Modal.Header>
         <Modal.Body>
           <ul className="list-group">
-            {cartItems.map(item => (
-              <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center">
+            {cart.map(item => (
+              <li key={item.id} className="list-group-item d-flex justify-content-between align-cart-center">
                 <div>
                   {item.name} - Rs. {item.price} x {item.quantity}
                 </div>
                 <div>
-                  <Button variant="success" onClick={() => handleAddItem(item.id)}>+</Button>
+                  <Button variant="success" onClick={() => handleAddItem(item.productId)}>+</Button>
                   <span className="mx-2">{item.quantity}</span>
-                  <Button variant="danger" onClick={() => handleRemoveItem(item.id)} disabled={item.quantity <= 1}>-</Button>
+                  <Button variant="danger" onClick={() => handleRemoveItem(item.productId)} >-</Button>
                 </div>
               </li>
             ))}
           </ul>
         </Modal.Body>
         <Modal.Footer>
-          <p className="text-primary">Total: Rs. {getTotalPrice()}</p>
+          <p className="text-primary">Total: Rs. {totalPrice}</p>
           <Button variant="primary">Checkout</Button>
         </Modal.Footer>
       </Modal>
