@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Card, Button, Toast } from 'react-bootstrap';
+import {useDispatch} from 'react-redux';
+import { CartActions } from './store/CartSlice';
+
 
 const ProductList = () => {
   const [showToast, setShowToast] = useState(false);
@@ -11,8 +14,11 @@ const ProductList = () => {
     { id: 3, title: 'Product 3', description: 'This is Product 3', price: 25 }
   ];
 
+  const dispatch = useDispatch();
+
+
   const addToCart = (product) => {
-    setCartItems([...cartItems, product]);
+    dispatch(CartActions.addItemToCart(product));
     setShowToast(true);
   };
 
