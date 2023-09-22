@@ -55,7 +55,7 @@ const Cart = () => {
         <Modal.Body>
           <ul className="list-group">
             {cart.map(item => (
-              <li key={item.id} className="list-group-item d-flex justify-content-between align-cart-center">
+              <li key={item.productId} className="list-group-item d-flex justify-content-between align-cart-center">
                 <div>
                   {item.name} - Rs. {item.price} x {item.quantity}
                 </div>
