@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Navbar, Container, Button, Badge } from "react-bootstrap";
 import Cart from "./Cart"; 
 import { useSelector, useDispatch } from 'react-redux';
-import UiActions from "./store/ui-slice";
+import { UiActions } from "./store/ui-slice";
 //icons
 import ShopyIcon from "./assets/Shopy.png";
 import CartIcon from "./assets/Cart.png";
@@ -11,6 +11,7 @@ import CartIcon from "./assets/Cart.png";
 const Header = () => {
   const dispatch = useDispatch();
   const CartQuantity = useSelector((state)=>state.cart.totalQuantity)
+  const showCart = useSelector((state) => state.ui.cartIsVisible)
   const toggleCart = () => {
     dispatch(UiActions.toggle());
   };
@@ -41,7 +42,7 @@ const Header = () => {
           </Badge>
         </Button>
 
-        <Cart />
+        {showCart && <Cart/>}
       </Container>
     </Navbar>
   );
